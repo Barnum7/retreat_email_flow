@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Retreat</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+</head>
+<body>
+    <h1>Open Appointments on Retreat</h1>
+
+    <div>
+        <h3 id="appointments"></h3>
+        
+        <p id="appointment_status"></p>
+        <p id="service"></p>
+    </div>
+
+    <div>
+        <button id="book">Book</button> <input type="email" id="email"  />
+    </div>
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDSS74nZRS-aYHG6CSc16uw3H1pKMxjqwk",
+    authDomain: "retreat-email-flow.firebaseapp.com",
+    databaseURL: "https://retreat-email-flow.firebaseio.com",
+    projectId: "retreat-email-flow",
+    storageBucket: "retreat-email-flow.appspot.com",
+    messagingSenderId: "696309126247"
+  };
+  firebase.initializeApp(config);
+</script>
+<script src="index.js"></script>
+</body>
+</html>

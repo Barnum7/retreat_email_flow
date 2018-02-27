@@ -1,0 +1,8 @@
+appointments:{
+    "Barnum Manicure": {
+        "Spa": "Barnum Spa",
+        "Service": "Manicure",
+        "Appointment_Status": "Available",
+        "Email_contact": "i@briangroat.com"
+    }
+}
