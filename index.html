@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Retreat</title>
+    <title>Document</title>
     <script
   src="http://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -23,14 +23,14 @@
 
 
   <div>
-  <button id="book">Book</button><input type="email" id="email"  />
+  <button id="book">BOOK</button>   <input type="email" id="email"  />
   </div>
   <hr/>
   <div>ADMIN AREA</div>
   <div>
       <form id="testForm">
-          <input type="radio" name="test" value="CLOSED"/>Approve
-          <input type="radio" name="test" value="OPEN"/>Cancel
+          <input type="radio" name="test" value="CLOSED"/>APPROVE
+          <input type="radio" name="test" value="OPEN"/>CANCEL
           <input id="submitBtn" type="submit" value="OK">
       </form>  
   </div>
@@ -42,20 +42,17 @@
 <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
 <script>
   // Initialize Firebase
+  // TODO: Replace with your project's customized code snippet
   var config = {
-    apiKey: "AIzaSyDSS74nZRS-aYHG6CSc16uw3H1pKMxjqwk",
-    authDomain: "retreat-email-flow.firebaseapp.com",
-    databaseURL: "https://retreat-email-flow.firebaseio.com",
-    projectId: "retreat-email-flow",
-    storageBucket: "retreat-email-flow.appspot.com",
-    messagingSenderId: "696309126247"
+    apiKey: "AIzaSyAF83A71cpCFOnU8MBYPzqREe3za_2pxPI",
+    authDomain: "test-a1655.firebaseapp.com",
+    databaseURL:"https://test-a1655.firebaseio.com"
   };
   firebase.initializeApp(config);
-
   var db = firebase.database();
 
-  db.ref('Appointments').on('value', (snapshot) => {
-    // var msg = "Not Available";
+  db.ref('test/appointment').on('value', (snapshot) => {
+    var msg = "NOT AVAILABLE";
     var status = $("#status");
     var btn = $("#submitBtn");
     $("#currentStatus").html(snapshot.val());

@@ -1,5 +1,4 @@
-﻿
-1) create a project directory
+﻿1) create a project directory
 2) $ npm install -g firebase-tools    (on terminal)
 3) $ firebase login
 4) create database on firebase console (via web browser)

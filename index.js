@@ -8,15 +8,17 @@ const transporter = nodemailer.createTransport({
         pass:"password"
     }
 })
-exports.index = functions.database.ref("Appointments").onUpdate(event => {
+exports.index = functions.database.ref("test/appointment").onUpdate(event => {
     const val = event.data.val();
     const from = "support@gmail.com";
-    const subject = "Appointment Status";
+    const subject = "APPOINTMENT STATUS";
     var text = "";
     return event.data.adminRef.parent.child('email').once('value',(snapshots)=>{
+        console.log('eamil address is',snapshots.val())
         const to = snapshots.val();
         if(val === "PENDING") {
-            text = "Thank you. Your current status is Pending. We'll let you know when that changes";
+            console.log("Appointment is pending")
+            text = "Thank you. current status is PENDING. please wait for our reply";
             transporter.sendMail({
                 from:from,
                 to:to,
@@ -24,7 +26,8 @@ exports.index = functions.database.ref("Appointments").onUpdate(event => {
                 text:text
             })
         } else if(val === "CLOSED") {
-            text = "Thank you. Your current status is booked. Thanks for using Retreat.";
+            console.log('Appointment is approved')
+            text = "Thank you. current status is BOOKED. thank you for booking.";
             transporter.sendMail({
                 from:from,
                 to:to,
@@ -32,7 +35,8 @@ exports.index = functions.database.ref("Appointments").onUpdate(event => {
                 text:text
             })
         } else {
-            text = "Unfotunately, your appointment was cancelled. Hopefully we can see you around soon.";
+            console.log('Appointment is canceled.')
+            text = "Unfotunately, current status is CANCELLED. please try again later";
             transporter.sendMail({
                 from:from,
                 to:to,
