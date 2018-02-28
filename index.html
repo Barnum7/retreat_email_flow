@@ -1,26 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Retreat</title>
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
+    <script
+  src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 </head>
 <body>
-    <h1>Open Appointments on Retreat</h1>
+  <style>
+    #status {
+      width: 300px;
+      height: 50px;
+      color: crimson;
+      font-size: 30px;
+    }
+  </style>
+  <div id="status"></div>
 
-    <div>
-        <h3 id="appointments"></h3>
-        
-        <p id="appointment_status"></p>
-        <p id="service"></p>
-    </div>
 
-    <div>
-        <button id="book">Book</button> <input type="email" id="email"  />
-    </div>
+  <div>
+  <button id="book">Book</button><input type="email" id="email"  />
+  </div>
+  <hr/>
+  <div>ADMIN AREA</div>
+  <div>
+      <form id="testForm">
+          <input type="radio" name="test" value="CLOSED"/>Approve
+          <input type="radio" name="test" value="OPEN"/>Cancel
+          <input id="submitBtn" type="submit" value="OK">
+      </form>  
+  </div>
+  <hr/>
+  <div style="float:left">current status:</div><div id="currentStatus"></div>
 
-<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+
+
+<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
 <script>
   // Initialize Firebase
   var config = {
@@ -32,7 +51,51 @@
     messagingSenderId: "696309126247"
   };
   firebase.initializeApp(config);
+
+  var db = firebase.database();
+
+  db.ref('Appointments').on('value', (snapshot) => {
+    // var msg = "Not Available";
+    var status = $("#status");
+    var btn = $("#submitBtn");
+    $("#currentStatus").html(snapshot.val());
+
+    if(snapshot.val() === "PENDING" || snapshot.val() === "CLOSED") {
+      status.html(msg)
+      //btn.hide()
+      return false;
+    }
+    status.html("AVAILABLE");
+    btn.show()
+  });
+
+  $("#testForm").submit((e)=>{
+      e.preventDefault();
+      var selectedVal = $("input[name='test']:checked").val();
+      alert(selectedVal);
+      updateValue(selectedVal);
+  })
+  
+  $("#book").click(() => {
+
+    var currentStatus =  $("#currentStatus").text();
+    var email = $("#email").val();
+
+    if(email  === ""){
+      alert('please insert email address')
+      return false;
+    }
+    if( currentStatus == "PENDING" ||  currentStatus =="CLOSED" || currentStatus == "") {
+      alert('NOT AVAILABLE');
+      return false;
+    }
+    db.ref("test").update({ appointment: "PENDING", email:email });
+    alert('BOOKED')
+  })
+  function updateValue(selectedVal) {
+    db.ref("test").update({ appointment: selectedVal });
+  }
+ 
 </script>
-<script src="index.js"></script>
 </body>
 </html>

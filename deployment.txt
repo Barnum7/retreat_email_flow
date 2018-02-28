@@ -1,0 +1,15 @@
+﻿
+1) create a project directory
+2) $ npm install -g firebase-tools    (on terminal)
+3) $ firebase login
+4) create database on firebase console (via web browser)
+5) example schema is {test : {appointment: "OPEN" , email: "test@gmail.com"}}
+6) set rules as true on database rule option
+7) goto project directory and then $ firebase init functions
+8) choose javascript(if you want to use Typescript, choose that)
+9) goto functions directory and then install nodemailer  $ npm i nodemailer --save
+10) $ firebase deploy
+
+# you can change the code whatever you want on index.js file and then $ firebase deploy
+# reference here :   https://firebase.google.com/docs/functions/firestore-events  
+# there are 8 kinds of trigger functions

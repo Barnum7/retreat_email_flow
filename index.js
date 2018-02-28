@@ -1,32 +1,45 @@
-// var appointments = document.getElementById("appointments");
+const functions = require('firebase-functions');
+const nodemailer = require('nodemailer');
 
-var appointmentDataRef = firebase.database().ref("Appointments").orderByKey();
-
-appointmentDataRef.once("value")
-  .then(function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-      var key = childSnapshot.key;
-      var appointment_status = childSnapshot.val().Appointment_Status;
-      var service = childSnapshot.val().Service;
-      document.getElementById("appointments").innerHTML = key;
-      document.getElementById("service").innerHTML = service;
-      document.getElementById("appointment_status").innerHTML = appointment_status;
-  });
-});
-
-  $("#book").click(() => {
-
-    var currentStatus = $("#appointment_status").text();
-    var email = $("#email").val();
-
-    if(email  === ""){
-      alert('Please insert email address')
-      return false;
+const transporter = nodemailer.createTransport({
+    service:'Gmail',
+    auth: {
+        user:"gmail",
+        pass:"password"
     }
-    if( currentStatus == "PENDING" ||  currentStatus =="CLOSED" || currentStatus == "") {
-      alert('This appointment is not currently available');
-      return false;
-    }
-    db.ref("Appointments").update({ appointment: "PENDING", email:email });
-    alert('Thank you for your interest. Your appointment request is currently pending')
-  })
+})
+exports.index = functions.database.ref("Appointments").onUpdate(event => {
+    const val = event.data.val();
+    const from = "support@gmail.com";
+    const subject = "Appointment Status";
+    var text = "";
+    return event.data.adminRef.parent.child('email').once('value',(snapshots)=>{
+        const to = snapshots.val();
+        if(val === "PENDING") {
+            text = "Thank you. Your current status is Pending. We'll let you know when that changes";
+            transporter.sendMail({
+                from:from,
+                to:to,
+                subject:subject,
+                text:text
+            })
+        } else if(val === "CLOSED") {
+            text = "Thank you. Your current status is booked. Thanks for using Retreat.";
+            transporter.sendMail({
+                from:from,
+                to:to,
+                subject:subject,
+                text:text
+            })
+        } else {
+            text = "Unfotunately, your appointment was cancelled. Hopefully we can see you around soon.";
+            transporter.sendMail({
+                from:from,
+                to:to,
+                subject:subject,
+                text:text
+            })
+        }
+    });
+    
+})
